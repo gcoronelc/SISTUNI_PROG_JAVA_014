@@ -13,8 +13,8 @@ public class BoletaService extends CompAbstract{
     // Variables
     double servicio, totalGeneral;
     // Proceso
-    servicio = total * SERVICIO;
-    totalGeneral = total + servicio;
+    servicio = redondear( total * SERVICIO);
+    totalGeneral = redondear( total + servicio);
     // Reporte
     ItemDto[] repo = {
       new ItemDto("Total", total),

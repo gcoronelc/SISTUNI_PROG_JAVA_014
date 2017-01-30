@@ -13,4 +13,10 @@ public abstract class CompAbstract {
   
   public abstract ItemDto[] procesar(double total);
   
+  
+  protected double redondear(double valor){
+    valor = Math.round(valor * 100.0);
+    valor /= 100;
+    return valor;
+  }
 }

@@ -13,10 +13,10 @@ public class FacturaService  extends CompAbstract{
     // Variables
     double consumo, impuesto, servicio, totalGeneral;
     // Proceso
-    consumo = total / (1 + IGV);
-    impuesto = total - consumo;
-    servicio = total * SERVICIO;
-    totalGeneral = total + servicio;
+    consumo = redondear(total / (1 + IGV));
+    impuesto = redondear( total - consumo );
+    servicio = redondear(total * SERVICIO);
+    totalGeneral = redondear( total + servicio);
     // Reporte
     ItemDto[] repo = {
       new ItemDto("Consumo", consumo),
