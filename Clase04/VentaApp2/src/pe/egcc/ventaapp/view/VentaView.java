@@ -97,6 +97,7 @@ public class VentaView extends javax.swing.JFrame {
 
     jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "RESULTADO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Arial", 1, 18), javax.swing.UIManager.getDefaults().getColor("nb.errorForeground"))); // NOI18N
 
+    tblRepo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
     tblRepo.setModel(new javax.swing.table.DefaultTableModel(
       new Object [][] {
         {null, null},
@@ -184,19 +185,13 @@ public class VentaView extends javax.swing.JFrame {
 
   private void btnProcesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcesarActionPerformed
     try {
-      // Verificar errores
-      if(cboTipo.getSelectedIndex() == -1){
-        throw new Exception("No se ha seleccionado ninguna opcion de tipo.");
-      }
-      if(txtTotal.getText().isEmpty()){
-        throw new Exception("Falta ingresar el total.");
-      }
-      if(!isDouble(txtTotal.getText())){
-        throw new Exception("El campo total no tiene formato correcto.");
-      }
       // Datos
       String tipo = cboTipo.getSelectedItem().toString();
       double total = Double.parseDouble(txtTotal.getText());
+      // Validar el dato
+      if(total <= 0){
+        throw new NumberFormatException("El valor del total no puede ser 0 no negativo.");
+      }
       // Proceso
       ItemDto[] repo = control.procesar(tipo, total);
       // Mostrar reporte
@@ -207,10 +202,14 @@ public class VentaView extends javax.swing.JFrame {
         Object[] rowData = {dto.getConcepto(), dto.getValor()};
         tabla.addRow(rowData);
       }
-    } catch (Exception e) {
-      JOptionPane.showMessageDialog(rootPane, e.getMessage(),
+    } catch (NullPointerException e) {
+      JOptionPane.showMessageDialog(rootPane, "Falta seleccionar el tipo.",
               "ERROR",JOptionPane.ERROR_MESSAGE);
-    }
+    } catch (NumberFormatException e) {
+      JOptionPane.showMessageDialog(rootPane, 
+              "Falta ingresar el total o su formato no es correcto.",
+              "ERROR",JOptionPane.ERROR_MESSAGE);
+    } 
   }//GEN-LAST:event_btnProcesarActionPerformed
 
   /**
